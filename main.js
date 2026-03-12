@@ -62,6 +62,9 @@ window.addEventListener("load", () => {
       automaticLayout: true
     });
 
+    editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, function () {
+      runCode();
+    });
   });
 
 });
