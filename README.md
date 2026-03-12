@@ -1,2 +1,9 @@
 # PyLab
-A free and an open-source browser Python environment designed for classrooms and students. Runs Python using WebAssembly via Pyodide and requires no server infrastructure.
+A free and an open-source lightweight browser-based Python environment designed for classrooms and students. 
+
+Features
+• Runs Python entirely in the browser using Pyodide (currently Python 3.11)
+• No server required
+• Works on GitHub Pages
+• Open source and free forever
+
