@@ -1,18 +1,25 @@
-let pyodide;
+let pyodide = null;
 
 async function init() {
   pyodide = await loadPyodide();
+  console.log("Pyodide ready");
 }
 
 init();
 
 async function runCode() {
-  let code = document.getElementById("editor").value;
+  if (!pyodide) {
+    alert("Python is still loading. Please wait a moment.");
+    return;
+  }
+
+  const code = document.getElementById("editor").value;
+  const output = document.getElementById("output");
 
   try {
     let result = await pyodide.runPythonAsync(code);
-    document.getElementById("output").textContent = result;
+    output.textContent = result ?? "";
   } catch (err) {
-    document.getElementById("output").textContent = err;
+    output.textContent = err;
   }
 }
