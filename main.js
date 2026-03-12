@@ -9,8 +9,8 @@ async function init() {
     sys.version
   `);
 
-  document.getElementById("pyversion".textContent =
-    "Python " + version.split(" ")[0]);
+  document.getElementById("pyversion").textContent =
+    "Python " + version.split(" ")[0];
 }
 
 init();
