@@ -1,4 +1,5 @@
 let pyodide = null;
+let editor;
 
 async function init() {
   pyodide = await loadPyodide();
@@ -21,7 +22,12 @@ async function runCode() {
     return;
   }
 
-  const code = document.getElementById("editor").value;
+  if (!editor) {
+    alert("Editor still loading. Please wait.");
+    return;
+  }
+
+  const code = editor.getValue();
   const output = document.getElementById("output");
 
   output.textContent = "";
@@ -38,3 +44,24 @@ async function runCode() {
     output.textContent += err;
   }
 }
+
+window.addEventListener("load", () => {
+
+  require.config({
+    paths: {
+      vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs"
+    }
+  });
+
+  require(["vs/editor/editor.main"], function () {
+
+    editor = monaco.editor.create(document.getElementById("editor"), {
+      value: 'print("Hello from PyLab")',
+      language: "python",
+      theme: "vs-dark",
+      automaticLayout: true
+    });
+
+  });
+
+});
