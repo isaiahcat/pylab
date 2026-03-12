@@ -9,17 +9,24 @@ init();
 
 async function runCode() {
   if (!pyodide) {
-    alert("Python is still loading. Please wait a moment.");
+    alert("Python is still loading. Please wait.");
     return;
   }
 
   const code = document.getElementById("editor").value;
   const output = document.getElementById("output");
 
+  output.textContent = "";
+
+  pyodide.setStdout({
+    batched: (text) => {
+      output.textContent += text;
+    }
+  });
+
   try {
-    let result = await pyodide.runPythonAsync(code);
-    output.textContent = result ?? "";
+    await pyodide.runPythonAsync(code);
   } catch (err) {
-    output.textContent = err;
+    output.textContent += err;
   }
 }
