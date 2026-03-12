@@ -3,21 +3,28 @@
 <head>
   <title>PyLab</title>
   <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>PyLab</h1>
+<header>
+  <h1>PyLab</h1>
+</header>
 
-<textarea id="editor" rows="15" cols="60">
-print("Hello from PyLab")
-</textarea>
+<div class="container">
 
-<br>
+  <textarea id="editor">
+    print("Hello from PyLab")
+  </textarea>
 
-<button onclick="runCode()">Run</button>
+  <div class="controls">
+    <button onclick="runCode()">Run ▶</button>
+  </div>
 
-<pre id="output"></pre>
+  <pre id="output"></pre>
+
+</div>
 
 <script src="main.js"></script>
 
