@@ -4,13 +4,13 @@ async function init() {
   pyodide = await loadPyodide();
   console.log("Pyodide ready");
 
-  const version = pyodide.runPython(`
-    import sys
-    sys.version
+  const version = await pyodide.runPythonAsync(`
+    import platform
+    platform.python_version()
   `);
 
   document.getElementById("pyversion").textContent =
-    "Python " + version.split(" ")[0];
+    "Python " + version;
 }
 
 init();
