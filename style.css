@@ -81,4 +81,7 @@ button:hover {
   overflow: auto;
   background: #111;
   margin: 0;
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 16px;
 }
