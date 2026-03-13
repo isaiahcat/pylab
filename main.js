@@ -138,3 +138,28 @@ uploadFile.onchange = function () {
 
   reader.readAsText(file);
 };
+
+const divider = document.getElementById("divider");
+const editorPane = document.getElementById("editor");
+const outputPane = document.querySelector(".output-panel");
+const workspace = document.querySelector(".workspace");
+
+let dragging = false;
+
+divider.addEventListener("mousedown", () => {
+  dragging = true;
+});
+
+document.addEventListener("mouseup", () => {
+  dragging = false;
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (!dragging) return;
+
+  const rect = workspace.getBoundingClientRect();
+  const percent = ((e.clientX - rect.left) / rect.width) * 100;
+
+  editorPane.style.width = percent + "%";
+  outputPane.style.width = (100 - percent) + "%";
+});
