@@ -65,8 +65,15 @@ window.addEventListener("load", () => {
       minimap: { enabled: false }
     });
 
-    editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, function () {
-      runCode();
+    editor.addAction({
+      id: "run-code",
+      label: "Run Python Code",
+      keybindings: [
+        monaco.KeyMod.Shift | monaco.KeyCode.Enter
+      ],
+      run: function () {
+        runCode();
+      }
     });
   });
 
