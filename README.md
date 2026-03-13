@@ -11,12 +11,12 @@ A free and an open-source lightweight browser-based Python environment designed 
   
 | Shortcut | Action |  
 |--------|--------|  
-| Shift + Enter | Run code |  
+| Tab | Indent |  
   
 Planned shortcuts:  
   
 | Shortcut | Action |  
 |--------|--------|  
+| Shift + Enter | Run code |  
 | Ctrl + Enter | Run code |  
 | Ctrl + / | Comment line |  
-| Tab | Indent |  

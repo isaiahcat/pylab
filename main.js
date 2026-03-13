@@ -72,6 +72,7 @@ window.addEventListener("load", () => {
         monaco.KeyMod.Shift | monaco.KeyCode.Enter
       ],
       run: function () {
+        console.log("Shift+Enter pressed")
         runCode();
       }
     });
