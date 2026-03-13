@@ -73,6 +73,10 @@ window.addEventListener("load", () => {
 
 window.addEventListener("resize", () => {
   if (editor) {
-    editor.layout();
+    const container = document.getElementById("editor");
+    editor.layout({
+      width: container.clientWidth,
+      height: container.clientHeight
+    });
   }
 });
