@@ -118,3 +118,23 @@ document.getElementById("downloadBtn").onclick = function () {
 
   URL.revokeObjectURL(url);
 };
+
+const uploadBtn = document.getElementById("uploadBtn");
+const uploadFile = document.getElementById("uploadFile");
+
+uploadBtn.onclick = () => {
+  uploadFile.click();
+};
+
+uploadFile.onchange = function () {
+  const file = uploadFile.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    editor.setValue(e.target.result);
+  };
+
+  reader.readAsText(file);
+};

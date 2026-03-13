@@ -8,6 +8,7 @@ A free and an open-source lightweight browser-based Python environment designed 
 • Open source and free forever  
 • Autosave with localStorage (prevents lost work) 
 • Download `.py` file  
+• Upload `.py` file  
   
 ## Keyboard Shortcuts  
   
