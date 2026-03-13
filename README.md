@@ -6,6 +6,7 @@ A free and an open-source lightweight browser-based Python environment designed 
 • No server required  
 • Works on GitHub Pages  
 • Open source and free forever  
+• Autosave with localStorage (prevents lost work)  
   
 ## Keyboard Shortcuts  
   

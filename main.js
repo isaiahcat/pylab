@@ -65,6 +65,21 @@ window.addEventListener("load", () => {
       minimap: { enabled: false }
     });
 
+    // Autosave with localStorage
+    const AUTOSAVE_KEY = "pylab-code";
+
+    // Load saved code
+    const saved = localStorage.getItem(AUTOSAVE_KEY);
+    if (saved) {
+      editor.setValue(saved);
+    }
+
+    // Save on change
+    editor.onDidChangeModelContent(() => {
+      const code = editor.getValue();
+      localStorage.setItem(AUTOSAVE_KEY, code);
+    });
+
     editor.addAction({
       id: "run-code",
       label: "Run Python Code",
