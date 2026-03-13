@@ -1,9 +1,22 @@
 # PyLab
 A free and an open-source lightweight browser-based Python environment designed for classrooms and students. 
-
-Features
-• Runs Python entirely in the browser using Pyodide (currently Python 3.11)	
-• No server required	
-• Works on GitHub Pages	
-• Open source and free forever	
-
+  
+## Features
+• Runs Python entirely in the browser using Pyodide (currently Python 3.11)  
+• No server required  
+• Works on GitHub Pages  
+• Open source and free forever  
+  
+## Keyboard Shortcuts  
+  
+| Shortcut | Action |  
+|--------|--------|  
+| Shift + Enter | Run code |  
+  
+Planned shortcuts:  
+  
+| Shortcut | Action |  
+|--------|--------|  
+| Ctrl + Enter | Run code |  
+| Ctrl + / | Comment line |  
+| Tab | Indent |  
