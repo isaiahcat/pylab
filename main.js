@@ -104,3 +104,17 @@ window.addEventListener("resize", () => {
     });
   }
 });
+
+document.getElementById("downloadBtn").onclick = function () {
+  const code = editor.getValue();
+
+  const blob = new Blob([code], { type: "text/x-python" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "pylab_code.py";
+  a.click();
+
+  URL.revokeObjectURL(url);
+};
