@@ -59,7 +59,9 @@ window.addEventListener("load", () => {
       value: 'print("Hello from PyLab")',
       language: "python",
       theme: "vs-dark",
-      automaticLayout: true
+      automaticLayout: true,
+      fontSize: 16,
+      minimap: { enabled: false }
     });
 
     editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, function () {
@@ -67,4 +69,10 @@ window.addEventListener("load", () => {
     });
   });
 
+});
+
+window.addEventListener("resize", () => {
+  if (editor) {
+    editor.layout();
+  }
 });
