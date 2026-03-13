@@ -95,3 +95,12 @@ button:hover {
   font-family: monospace;
   font-size: 16px;
 }
+
+.stdin-input {
+  background: #111;
+  border: none;
+  color: #0f0;
+  font-family: monospace;
+  font-size: 16px;
+  outline: none;
+}

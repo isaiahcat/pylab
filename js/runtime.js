@@ -31,11 +31,47 @@ async function runCode() {
     }
   });
 
+  pyodide.setStdin({
+    stdin: async () => {
+      return await stdinFromConsole("");
+    }
+  });
+
   try {
     await pyodide.runPythonAsync(code);
   } catch (err) {
     output.textContent += err;
   }
+}
+
+function stdinFromConsole(promptText) {
+  return new Promise((resolve) => {
+
+    const output = document.getElementById("output");
+
+    const span = document.createElement("span");
+    span.textContent = promptText;
+
+    const input = document.createElement("input");
+    input.className = "stdin-input";
+
+    output.appendChild(span);
+    output.appendChild(input);
+
+    input.focus();
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const value = input.value;
+        input.remove();
+
+        const text = document.createTextNode(value + "\n");
+        output.appendChild(text);
+
+        resolve(value + "\n");
+      }
+    });
+  });
 }
 
 init();
