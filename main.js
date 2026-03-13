@@ -33,8 +33,9 @@ async function runCode() {
   output.textContent = "";
 
   pyodide.setStdout({
-    batched: (text) => {
-      output.textContent += text;
+    raw: (text) => {
+      output.textContent += String.fromCharCode(text);
+      output.scrollTop = output.scrollHeight;
     }
   });
 
