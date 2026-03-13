@@ -1,50 +1,4 @@
-let pyodide = null;
 let editor;
-
-async function init() {
-  pyodide = await loadPyodide();
-  console.log("Pyodide ready");
-
-  const version = await pyodide.runPythonAsync(`
-    import platform
-    platform.python_version()
-  `);
-
-  document.getElementById("pyversion").textContent =
-    "Python " + version;
-}
-
-init();
-
-async function runCode() {
-  if (!pyodide) {
-    alert("Python is still loading. Please wait.");
-    return;
-  }
-
-  if (!editor) {
-    alert("Editor still loading. Please wait.");
-    return;
-  }
-
-  const code = editor.getValue();
-  const output = document.getElementById("output");
-
-  output.textContent = "";
-
-  pyodide.setStdout({
-    raw: (text) => {
-      output.textContent += String.fromCharCode(text);
-      output.scrollTop = output.scrollHeight;
-    }
-  });
-
-  try {
-    await pyodide.runPythonAsync(code);
-  } catch (err) {
-    output.textContent += err;
-  }
-}
 
 window.addEventListener("load", () => {
 
@@ -65,29 +19,21 @@ window.addEventListener("load", () => {
       minimap: { enabled: false }
     });
 
-    // Autosave with localStorage
-    const AUTOSAVE_KEY = "pylab-code";
-
     // Load saved code
-    const saved = localStorage.getItem(AUTOSAVE_KEY);
+    const saved = loadCode();
     if (saved) {
       editor.setValue(saved);
     }
 
     // Save on change
     editor.onDidChangeModelContent(() => {
-      const code = editor.getValue();
-      localStorage.setItem(AUTOSAVE_KEY, code);
+      saveCode(editor.getValue());
     });
 
-    editor.addAction({
-      id: "run-code",
-      label: "Run Python Code",
-      keybindings: [
-        monaco.KeyMod.Shift | monaco.KeyCode.Enter
-      ],
-      run: function () {
-        console.log("Shift+Enter pressed")
+    // Shift+Enter keyboard shortcut
+    editor.onKeyDown((e) => {
+      if (e.shiftKey && e.keyCode === monaco.KeyCode.Enter) {
+        e.preventDefault();
         runCode();
       }
     });
