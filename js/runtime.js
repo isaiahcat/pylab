@@ -11,6 +11,19 @@ async function init() {
 
   document.getElementById("pyversion").textContent =
     "Python " + version;
+
+  await pyodide.runPythonAsync(`
+    import builtins
+    import js
+
+    async def _pylab_input(prompt=""):
+        return await js.consoleInput(prompt)
+
+    def input(prompt=""):
+        return js.await_promise(_pylab_input(prompt))
+
+    builtins.input = input
+  `);
 }
 
 async function runCode() {
@@ -49,13 +62,13 @@ function stdinFromConsole(promptText) {
 
     const output = document.getElementById("output");
 
-    const span = document.createElement("span");
-    span.textContent = promptText;
+    const prompt = document.createElement("prompt");
+    prompt.textContent = promptText;
 
     const input = document.createElement("input");
     input.className = "stdin-input";
 
-    output.appendChild(span);
+    output.appendChild(prompt);
     output.appendChild(input);
 
     input.focus();
