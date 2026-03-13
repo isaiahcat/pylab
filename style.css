@@ -29,6 +29,7 @@ h1 {
 }
 
 button {
+  height: 36px;
   padding: 8px 16px;
   background: #4CAF50;
   border: none;
