@@ -1,4 +1,5 @@
 let pyodide = null;
+let inputResolver = null;
 
 async function init() {
   pyodide = await loadPyodide();
@@ -11,6 +12,12 @@ async function init() {
 
   document.getElementById("pyversion").textContent =
     "Python " + version;
+
+  pyodide.setStdin({
+    stdin: async () => {
+      return await consoleInput("");
+    }
+  });
 }
 
 async function runCode() {
@@ -18,18 +25,6 @@ async function runCode() {
     alert("Python still loading");
     return;
   }
-
-  await pyodide.runPythonAsync(`
-    import builtins
-    import js
-    import asyncio
-
-    def input(prompt=""):
-        loop = asyncio.get_event_loop()
-        return loop.run_until_complete(js.consoleInput(prompt))
-
-    builtins.input = input
-  `);
 
   const code = editor.getValue();
   const output = document.getElementById("output");
@@ -43,12 +38,6 @@ async function runCode() {
     }
   });
 
-  pyodide.setStdin({
-    stdin: async () => {
-      return await consoleInput("");
-    }
-  });
-
   try {
     await pyodide.runPythonAsync(code);
   } catch (err) {
@@ -57,31 +46,30 @@ async function runCode() {
 }
 
 function consoleInput(promptText) {
-  const prompt = document.createElement("prompt");
-  prompt.textContent = promptText;
-
-  const input = document.createElement("input");
-  input.className = "stdin-input";
-
   const output = document.getElementById("output");
-  output.appendChild(prompt);
-  output.appendChild(input);
+  const wrapper = document.createElement("div");
+  const input = document.createElement("input");
+  const label = document.createElement("span");
+  label.textContent = promptText;
+
+  wrapper.appendChild(label);
+  wrapper.appendChild(input);
+  output.appendChild(wrapper);
 
   input.focus();
-  
+
   return new Promise((resolve) => {
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const value = input.value;
-        input.remove();
-
-        const text = document.createTextNode(value + "\n");
-        output.appendChild(text);
-
-        resolve(value + "\n");
-      }
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          const value = input.value;
+          wrapper.remove();
+          const line = document.createElement("div");
+          line.textContent = promptText + value;
+          output.appendChild(line);
+          resolve(value + "\n");
+        }
+      });
     });
-  });
 }
 
 init();
