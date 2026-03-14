@@ -11,19 +11,6 @@ async function init() {
 
   document.getElementById("pyversion").textContent =
     "Python " + version;
-
-  await pyodide.runPythonAsync(`
-    import builtins
-    import js
-
-    async def _pylab_input(prompt=""):
-        return await js.consoleInput(prompt)
-
-    def input(prompt=""):
-        return js.await_promise(_pylab_input(prompt))
-
-    builtins.input = input
-  `);
 }
 
 async function runCode() {
@@ -31,6 +18,18 @@ async function runCode() {
     alert("Python still loading");
     return;
   }
+
+  await pyodide.runPythonAsync(`
+    import builtins
+    import js
+    import asyncio
+
+    def input(prompt=""):
+        loop = asyncio.get_event_loop()
+        return loop.run_until_complete(js.consoleInput(prompt))
+
+    builtins.input = input
+  `);
 
   const code = editor.getValue();
   const output = document.getElementById("output");
@@ -46,7 +45,7 @@ async function runCode() {
 
   pyodide.setStdin({
     stdin: async () => {
-      return await stdinFromConsole("");
+      return await consoleInput("");
     }
   });
 
@@ -57,22 +56,20 @@ async function runCode() {
   }
 }
 
-function stdinFromConsole(promptText) {
+function consoleInput(promptText) {
+  const prompt = document.createElement("prompt");
+  prompt.textContent = promptText;
+
+  const input = document.createElement("input");
+  input.className = "stdin-input";
+
+  const output = document.getElementById("output");
+  output.appendChild(prompt);
+  output.appendChild(input);
+
+  input.focus();
+  
   return new Promise((resolve) => {
-
-    const output = document.getElementById("output");
-
-    const prompt = document.createElement("prompt");
-    prompt.textContent = promptText;
-
-    const input = document.createElement("input");
-    input.className = "stdin-input";
-
-    output.appendChild(prompt);
-    output.appendChild(input);
-
-    input.focus();
-
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         const value = input.value;
